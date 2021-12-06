@@ -11,36 +11,31 @@
 <form method="get">
     <div class="form-row">
         <div class="form-group col-md-3">
-            <div class="form-group">
-                <label class="control-label">department: </label>
-                <input name="department" class="form-control">
-            </div>
-            <div class="form-group">
-                <label class="control-label">name: </label>
-                <input name="fullname" class="form-control">
-            </div>
+            <label class="control-label">Отдел: </label>
+            <input name="department" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Ф.И.О.: </label>
+            <input name="fullname" class="form-control">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label class="control-label">Дата рождения: </label>
+            <input type="date" name="birthDate" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Дата устройства на работу: </label>
+            <input type="date" name="employmentDate" class="form-control">
         </div>
         <div class="form-group col-md-2">
-            <div class="form-group">
-                <label class="control-label">Birth: </label>
-                <input type="date" name="birthDate" class="form-control">
-            </div>
-            <div class="form-group">
-                <label class="control-label">Employment: </label>
-                <input type="date" name="employmentDate" class="form-control">
-            </div>
+            <label class="control-label">Заработная плата: </label>
+            <input name="salary" class="form-control">
         </div>
-        <div class="form-group col-md-2">
-            <div class="form-group">
-                <label class="control-label">Salary: </label>
-                <input name="salary" class="form-control">
-            </div>
-            <div class="form-group" align="center">
-                <p style="text-align: center">
-                    <button type="submit" value="Фильтр">Фильтр</button>
-                </p>
-                @*<input type="submit" value="Фильтр" class="btn btn-default">*@
-            </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group" align="center">
+            <button type="submit" class="btn btn-success" value="Фильтр">Фильтр</button>
         </div>
     </div>
 </form>
@@ -50,7 +45,7 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Employee" asp-route-sortOrder="@ViewBag.DepartmentSort">Департамент</a>
+                <a asp-action="Employee" asp-route-sortOrder="@ViewBag.DepartmentSort">Отдел</a>
             </th>
             <th>
                 <a asp-action="Employee" asp-route-sortOrder="@ViewBag.NameSort">Ф.И.О.</a>
@@ -65,29 +60,27 @@
                 <a asp-action="Employee" asp-route-sortOrder="@ViewBag.SalarySort">Заработная плата</a>
             </th>
             <th>
-                @Html.ActionLink("Create New", "CreateOrEdit",new { id = 0 }, new { @class = "compItem" })
-                @*<a asp-action="CreateOrEdit">Create New</a>*@
+                <a class="btn btn-success compItem" href="@Url.Action("CreateOrEdit", new { id = 0 })">Добавить сотрудника</a>
             </th>
         </tr>
     <thead>
     <tbody>
-        @foreach (var item in Model.Employees) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.Department)</td>
-            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-            <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
-            <td>@Html.DisplayFor(modelItem => item.DateOfEmployment)</td>
-            <td>@Html.DisplayFor(modelItem => item.Salary)</td>
+        @foreach (var item in Model.Employees)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Department)</td>
+                <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateOfEmployment)</td>
+                <td>@Html.DisplayFor(modelItem => item.Salary)</td>
 
-            <td>
-            
-                @Html.ActionLink("Edit", "CreateOrEdit", new { id = item.EmployeeId }, new { @class = "compItem" })
-                @Html.ActionLink("Delete", "DeleteEmployee", new { id = item.EmployeeId }, new { @class = "compItem" })
-            
-            @*<a asp-action="CreateOrEdit" asp-route-id="@item.EmployeeId">Edit</a> |*@
-            <a asp-action="Index" asp-route-id="@item.EmployeeId" onclick="return confirm('Вы уверены, что хотите удалить этого сотрудника?')">Delete</a>
-            </td>
-        </tr>
+                <td>
+                    <a class="btn btn-warning compItem" href="@Url.Action("CreateOrEdit", new { id = item.EmployeeId })">Редактировать</a>
+                </td>
+                <td>
+                    <button class="btn btn-danger delete" data-id="@item.EmployeeId" data-controller="Employee" data-action="Delete" data-body-message="Вы уверены, что хотите удалить сотрудника?">Удалить</button>
+                </td>
+            </tr>
 
         }
     </tbody>

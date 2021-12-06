@@ -10,13 +10,12 @@
         <button class="close" data-dismiss="modal" area-hidden="true">X</button>
     </div>
     <div class="modal-body">
-        <hr />
         <div class="row">
             <div class="col-md-12">
                 <form asp-action="CreateOrEdit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div hidden><input asp-for="EmployeeId" /></div>
-                    
+
                     <div class="form-group">
                         <label asp-for="Department" class="control-label"></label>
                         <input asp-for="Department" class="form-control" />
@@ -27,16 +26,16 @@
                         <input asp-for="FullName" class="form-control" />
                         <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
-                 
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label asp-for="DateOfBirth" class="control-label"></label>
-                            <input asp-for="DateOfBirth" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                            <input asp-for="DateOfBirth" type="date" asp-format="{0:@DateTime.Today.ToString("yyyy-MM-dd")}" class="form-control" />
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label asp-for="DateOfEmployment" class="control-label"></label>
-                            <input asp-for="DateOfEmployment" class="form-control" />
+                            <input asp-for="DateOfEmployment" type="date" asp-format="{0:@DateTime.Today.ToString("yyyy-MM-dd")}" class="form-control" />
                             <span asp-validation-for="DateOfEmployment" class="text-danger"></span>
                         </div>
                     </div>
@@ -47,15 +46,15 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <input type="submit" value="Submit" class="btn btn-primary" />
+                            <input type="submit" value="Выполнить" class="btn btn-primary" />
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -18,8 +18,8 @@ namespace EmployeesOfCompany.Controllers
             _context = context;
         }
 
-
-        public ActionResult Employee(string department, string fullname, DateTime birthDate, DateTime employmentDate, int? salary, SortState sortOrder = SortState.NameAsc) {
+        public ActionResult Employee(string department, string fullname, DateTime birthDate, DateTime employmentDate, int? salary, SortState sortOrder = SortState.NameAsc)
+        {
             IQueryable<Employee> employees = _context.Employees;
             ViewData["DepartmentSort"] = sortOrder == SortState.DepartmentaAsc ? SortState.DepartmentDesc : SortState.DepartmentaAsc;
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
@@ -27,22 +27,28 @@ namespace EmployeesOfCompany.Controllers
             ViewData["EmploymentSort"] = sortOrder == SortState.EmploymentAsc ? SortState.EmploymentDesc : SortState.EmploymentAsc;
             ViewData["SalarySort"] = sortOrder == SortState.SalaryAsc ? SortState.SalaryDesc : SortState.SalaryAsc;
 
-            if (!String.IsNullOrEmpty(department)) {
+            if (!String.IsNullOrEmpty(department))
+            {
                 employees = employees.Where(p => p.Department.Contains(department));
             }
-            if (!String.IsNullOrEmpty(fullname)) {
+            if (!String.IsNullOrEmpty(fullname))
+            {
                 employees = employees.Where(p => p.FullName.Contains(fullname));
             }
-            if (birthDate != DateTime.MinValue) {
+            if (birthDate != DateTime.MinValue)
+            {
                 employees = employees.Where(p => p.DateOfBirth == birthDate);
             }
-            if (employmentDate != DateTime.MinValue) {
+            if (employmentDate != DateTime.MinValue)
+            {
                 employees = employees.Where(p => p.DateOfEmployment == employmentDate);
             }
-            if (salary != 0 && salary != null) {
+            if (salary != 0 && salary != null)
+            {
                 employees = employees.Where(p => p.Salary == salary);
             }
-            employees = sortOrder switch {
+            employees = sortOrder switch
+            {
                 SortState.DepartmentDesc => employees.OrderByDescending(s => s.Department),
                 SortState.NameAsc => employees.OrderBy(s => s.FullName),
                 SortState.NameDesc => employees.OrderByDescending(s => s.FullName),
@@ -55,29 +61,28 @@ namespace EmployeesOfCompany.Controllers
                 _ => employees.OrderBy(s => s.Department),
             };
 
-            UserListViewModel viewModel = new UserListViewModel {
+            UserListViewModel viewModel = new UserListViewModel
+            {
                 Employees = employees.ToList(),
             };
             return View(viewModel);
-            //return View();
         }
 
-        public IActionResult Index() {
+        public IActionResult Index()
+        {
             return View();
         }
-        // GET: Employee/Create
+
         public IActionResult CreateOrEdit(int id = 0)
         {
-            if(id == 0) {
+            if (id == 0)
+            {
                 return PartialView(new Employee());
             }
             else
                 return PartialView(_context.Employees.Find(id));
         }
 
-        // POST: Employee/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrEdit([Bind("EmployeeId,Department,FullName,DateOfBirth,DateOfEmployment,Salary")] Employee employee)
@@ -89,14 +94,10 @@ namespace EmployeesOfCompany.Controllers
                 else
                     _context.Update(employee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Employee));
             }
             return View(employee);
         }
-
-      
-
-        // GET: Employee/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             var emploee = await _context.Employees.FindAsync(id);
@@ -104,13 +105,5 @@ namespace EmployeesOfCompany.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public ActionResult DeleteEmployee(int id) {
-           
-            //  if (c != null)
-            return PartialView(_context.Employees.Find(id));
-            // return HttpNotFound();
-        }
-
-
     }
 }

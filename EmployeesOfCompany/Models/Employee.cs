@@ -6,13 +6,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmployeesOfCompany.Models {
-    public class Employee {
+namespace EmployeesOfCompany.Models
+{
+    public class Employee
+    {
         [Key]
         public int EmployeeId { get; set; }
 
         [Column(TypeName = "varchar(100)")]
-        [Required(ErrorMessage ="Пожалуйста, укажите отдел")]
+        [Required(ErrorMessage = "Пожалуйста, укажите отдел")]
         [DisplayName("Отдел")]
         public string Department { get; set; }
 
